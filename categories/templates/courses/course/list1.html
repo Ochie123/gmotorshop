@@ -1,0 +1,125 @@
+{%load static %}
+{% block title %}
+{% if category %}
+{{ category.title }} products
+{% else %}
+All products
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% include "search/form.html" %}
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.flex-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-wrapper > div {
+  width: 100%;
+  max-width: 25%;
+  padding: 10px;
+
+}
+
+@media only screen and (max-width: 600px) {
+  .flex-wrapper > div {
+    max-width: 50%;
+  }
+}
+@media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+    }
+
+  </style>
+
+{% for item in bestseller_products %}
+{{ item.title }}
+{% endfor %}
+
+{% include "courses/course/prod_list.html" %}
+<div class="container">
+<h1>Recently Viewed</h1>
+</div>
+
+
+<main class="container">
+  <style>
+    .container {
+      background-color: rgb(246, 244, 244);
+    }
+  </style>
+    <!-- Section START -->
+    <section class="pt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Title -->
+            <div class="mb-4 d-md-flex justify-content-between align-items-center">
+              <h2 class="m-0"><i class="bi bi-megaphone"></i> </h2>
+
+            </div>
+            <div class="tiny-slider arrow-hover arrow-blur arrow-dark arrow-round">
+              <div class="tiny-slider-inner"
+                data-autoplay="true"
+                data-hoverpause="true"
+                data-gutter="24"
+                data-arrow="true"
+                data-dots="false"
+                data-items-xl="4"
+                data-items-md="3"
+                data-items-sm="3"
+                data-items-xs="2">
+
+                <!-- Card item START -->
+                {% for product in products %}
+                {% with category=product.category %}
+
+                <div className="card h-100">
+                  <a href="{{ product.get_absolute_url }}">
+                   <div class="img-container">
+                    <img
+                      className="img-fluid w-100 img-card"
+                      src="{% if product.image %}{{ product.image.url }}{% else %}
+              {% static "images/no_image.png" %}{% endif %}">
+
+                  </div>
+                  <div class="card h-100-body">
+                <h5 class="card-title"><a href="{{ product.get_absolute_url }}"> {{ product.title }}</a> </h5>
+                <ul class="product_price list-unstyled">
+                  <li class="old_price">Was: <del>Kes: {{ product.old_price }}</del></li>
+                  <li class="new_price">Now: <span class="badge badge-danger">Kes: {{ product.price }}</span></li>
+              </ul>
+              </div>
+                  </a>
+              </div>
+
+              {% endwith %}
+              {% endfor %}
+              
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+{% if products.paginator.num_pages > 1 %}
+{% include 'courses/course/_pagination.html' with items=products %}
+{% endif %}
+
+{% endblock %}

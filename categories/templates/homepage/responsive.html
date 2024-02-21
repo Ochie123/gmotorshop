@@ -1,0 +1,220 @@
+{% extends "basee.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="{% static "javascripts/featured.js" %}"></script>
+<link href="{% static 'css/newfeaturedlist.css' %}" rel="stylesheet">
+<!------ Include the above in your HEAD tag ---------->
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .flex-wrapper > div {
+    width: 100%;
+    max-width: 25%;
+    padding: 10px;
+   
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .flex-wrapper > div {
+      max-width: 50%;
+    }
+  }
+  @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+      }
+      
+  .img-container {
+     position: relative;
+     overflow:hidden;
+     height: 150px;
+  }
+  
+  .img-container img {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height:100%;
+    object-fit: cover
+  }
+    </style>
+<div class="container">
+
+	<div class="row">
+    <div class="flex-wrapper">
+      {% for product in featured_products %} 
+        <div class="col-sm-3">
+          
+            <article class="col-item">
+            	<div class="photo">
+        			<div class="options-cart-round">
+        				<button class="btn btn-default" title="Add to cart">
+        					<span class="fa fa-shopping-cart"></span>
+        				</button>
+        			</div>
+        			<a href="{% url "product_detail" product.slug %}">
+               
+                {% if product.featured_product.image %}
+                <img src="{{ image.thumbnail.url }}" class="img-responsive" alt="Product Image" /> </a>
+                {% endif %}
+        		</div>
+        		<div class="info">
+        			<div class="row">
+        				<div class="price-details col-md-6">
+        					<p class="details">
+        						Lorem ipsum dolor sit amet, consectetur..
+        					</p>
+        					<h1><a href="{% url "product_detail" product.slug %}"> {{ product.title }}</a> </h1>
+                  <ul>
+                    <li class="old_price">Was: <del>Kes: {{ product.old_price }} 666666</del></li>
+                    <li class="new_price">Now: <span>Kes: {{ product.price }} 5555</span></li>
+                </ul>
+        				</div>
+        			</div>
+        		</div>
+        	</article>
+
+
+          <article class="col-item">
+        		<div class="photo">
+        			<a href="#"> <img src="https://unsplash.it/500/300?image=0" class="img-responsive" alt="Product Image" /> </a>
+        		</div>
+        		<div class="info">
+        			<div class="row">
+        				<div class="price-details col-md-6">
+        					<p class="details">
+        						Lorem ipsum dolor sit amet, consectetur..
+        					</p>
+        					<h1>Sample Product</h1>
+        					<span class="price-new">$110.00</span>
+        				</div>
+        			</div>
+        			<div class="separator clear-left">
+        				<p class="btn-add">
+        					<i class="fa fa-shopping-cart"></i><a href="#" class="hidden-sm">Add to cart</a>
+        				</p>
+        				<p class="btn-details">
+        					<a href="#" class="hidden-sm" data-toggle="tooltip" data-placement="top" title="Add to wish list"><i class="fa fa-heart"></i></a>
+        					<a href="#" class="hidden-sm" data-toggle="tooltip" data-placement="top" title="Compare"><i class="fa fa-exchange"></i></a>
+        				</p>
+        			</div>
+        			<div class="clearfix"></div>
+        		</div>
+        	</article>
+        </div>
+{% endfor %}
+    
+	</div>
+</div>
+</div>
+
+
+
+        {% if products.paginator.num_pages > 1 %}
+        {% include 'courses/course/_pagination.html' with items=products %}
+        {% endif %}
+      </div> 
+{% endblock %}
+
+<div class="flex-wrapper">
+  {% for item in featured_products %} 
+    <div class="col-sm-3"> 
+      <article class="col-item">
+        <div class="photo">
+          {% for image in item.productimage_set.all %}    
+          <a href="#"> <img src="{{ image.thumbnail.url }}" class="img-responsive" alt="Product Image" /> </a>
+    
+        </div>
+        <div class="info">
+          <div class="row">
+            <div class="price-details col-md-6">
+              <p class="details">
+                Lorem ipsum dolor sit amet, consectetur..
+              </p>
+              <h1>Sample Product</h1>
+              <span class="price-new">$110.00</span>
+            </div>
+          </div>
+          <div class="separator clear-left">
+            <p class="btn-add">
+              <i class="fa fa-shopping-cart"></i><a href="#" class="hidden-sm">Add to cart</a>
+            </p>
+            <p class="btn-details">
+              <a href="#" class="hidden-sm" data-toggle="tooltip" data-placement="top" title="Add to wish list"><i class="fa fa-heart"></i></a>
+              <a href="#" class="hidden-sm" data-toggle="tooltip" data-placement="top" title="Compare"><i class="fa fa-exchange"></i></a>
+            </p>
+          </div>
+          <div class="clearfix"></div>
+        </div>	
+      </article>
+   
+    </div>
+{% endfor %}
+
+</div>
+
+<div class="rating">
+  <div class="stars">
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+  </div>
+  <span class="review-no">41 reviews</span>
+</div>
+<p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+<h4 class="price">current price: <span>Ksh: {{ product.price }}</span></h4>
+<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+<h5 class="sizes">sizes:
+  <span class="size" data-toggle="tooltip" title="small">s</span>
+  <span class="size" data-toggle="tooltip" title="medium">m</span>
+  <span class="size" data-toggle="tooltip" title="large">l</span>
+  <span class="size" data-toggle="tooltip" title="xtra large">xl</span>
+</h5>
+<h5 class="colors">colors:
+  <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
+  <span class="color green"></span>
+  <span class="color blue"></span>
+</h5>
+<div class="action">
+  <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+  <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>eCommerce Product Detail</title>
+    <link href="{% static 'css/detailnew.css' %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+  </head>

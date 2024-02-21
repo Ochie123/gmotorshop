@@ -1,0 +1,17 @@
+{% for p in products %}
+<div class="product_thumbnail">
+	<a href="{{ p.get_absolute_url }}">
+        <div class="product-image">
+            <a href="{{ p.get_absolute_url }}"> 
+            <div class="img-container">
+              {% for image in p.productimage_set.all %}
+              <img src="{{ image.image.url }}" alt="cover"/>
+              {% endfor %}
+            </div>
+          </a>
+          </div>
+
+		{{ p.title }}
+	</a>
+</div>
+{% endfor %}
